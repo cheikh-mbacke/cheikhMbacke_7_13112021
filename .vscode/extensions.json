@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "knisterpeter.vscode-github"
+        "knisterpeter.vscode-github",
+        "github.vscode-pull-request-github"
     ]
 }
