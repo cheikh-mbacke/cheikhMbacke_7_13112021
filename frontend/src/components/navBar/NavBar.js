@@ -12,12 +12,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LanguageIcon from '@mui/icons-material/Language';
 import AccountMenu from '../accountMenu/AccountMenu'
-import Link  from '@mui/material/Link';
+import {Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import './NavBar.css'
 
 export default function NavBar() {
+
   const [toggle, setToggle] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -84,13 +86,18 @@ export default function NavBar() {
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
             <LoginIcon />
           </IconButton>
-          <p>Se connecter</p>
+            <Link to="Login" className="links">
+                Connexion
+            </Link>
         </MenuItem>
         <MenuItem>
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
             <AppRegistrationIcon />
           </IconButton>
-          <p>S'inscrire</p>
+            <Link to="Logout" className="links">
+                Inscription
+            </Link>
+          
       </MenuItem>
       </Box>
       :
@@ -137,17 +144,28 @@ export default function NavBar() {
             component="div"
             sx={{ mr: {xs: '1em', sm: "0"}, color: 'primary.main' }}
           >
-            <Link href="#" underline="none">
+            <Link to="/" className="links">
                 Groupomania
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex'}}}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex'}}}>
               
             {toggle ?
             <div>
-              <Button variant="outlined" sx={{mr: "1em"}}>Se connecter</Button>
-              <Button variant="contained">S'inscrire</Button>
+        
+                <Link to="Login" className="links">
+                  <Button variant="outlined" sx={{mr: "1em"}} >
+                    Se connecter
+                  </Button>
+                </Link>
+             
+                <Link to="Logout" className="links">
+                  <Button variant="contained">
+                    S'inscrire
+                  </Button>
+                </Link>
+              
             </div>
             :
               <div>
@@ -171,7 +189,7 @@ export default function NavBar() {
             }
             
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
             <IconButton
               size="large"
               aria-label="show more"

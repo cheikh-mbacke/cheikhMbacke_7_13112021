@@ -1,21 +1,31 @@
 import './App.css';
-import Container from '@mui/material/Container';
-import Loader from '../loader/Loader';
+import DisplayLoadingContent from '../displayLoadingContent/DisplayLoadingContent';
+import LoadNavBarContent from '../loadContents/LoadNavBarContent'
 import NavBar from '../navBar/NavBar';
-import { useState } from 'react';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Login from '../pages/login/Login'
+import Logout from '../pages/logout/Logout'
+import Error404 from '../pages/error404/Error404'
+import Home from '../pages/home/Home'
 
 function App() {
 
-  const [toggle, setToggle] = useState(false);
-
-  setTimeout(() => {
-    setToggle(true)
-  }, 1000)
+  
   return (
-    <div className="App">
-      
-        {toggle ? <NavBar /> : <Container sx={{pt:2}}><Loader /></Container>}
-     
+    <div className="App">     
+        
+        <BrowserRouter>
+        <DisplayLoadingContent loadingContent={<LoadNavBarContent />}>
+          <NavBar /> 
+        </DisplayLoadingContent>
+          <Routes>
+          <Route path="/" element={<Home />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="Logout" element={<Logout />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </BrowserRouter>
+        
     </div>
   );
 }
