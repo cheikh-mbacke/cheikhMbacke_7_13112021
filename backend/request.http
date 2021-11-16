@@ -1,8 +1,0 @@
-POST http://localhost:3000/api/auth/login
-content-type: application/json
-
-{
-    "email": "mbackecheikhouna7@gamail.com",
-    "password": "root"
-}
-

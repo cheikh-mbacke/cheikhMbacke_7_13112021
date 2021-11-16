@@ -1,16 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
-const sauceRoutes = require('./routes/sauce');
-const path = require('path');
 const helmet = require('helmet');
+const authRoutes = require('./routes/auth');
 
-//connexion à la BDD mongoDB Atlas
-mongoose.connect('mongodb+srv://root:root@cluster0.wf5vb.mongodb.net/tests?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
 
 const app = express()
 app.use(helmet());
@@ -29,11 +22,10 @@ app.use((req, res, next) => {
     next();
   });
 
+
 //requêtes d'authentification
 app.use('/api/auth', authRoutes);
+//app.use('/api/auth', (req, res, next) => res.status(200).json(req.body));
 
-//
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api/sauces', sauceRoutes );
 
 module.exports = app

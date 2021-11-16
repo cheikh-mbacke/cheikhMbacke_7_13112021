@@ -19,7 +19,7 @@ const normalizePort = val => {
 };
 
 //configurer le port sur lequel express reçoit les requêtes
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 //Cette fonction recherche les différentes erreurs et les gère de manière appropriée.
