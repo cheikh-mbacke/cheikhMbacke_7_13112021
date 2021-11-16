@@ -1,11 +1,80 @@
+const db = require("../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const sql = require("../models/db.js");
+const User = db.users;
+const Op = db.Sequelize.Op;
+
+
+// Create and Save a new User
+exports.signup = (req, res) => {
+  
+  //So Hash password
+  bcrypt.hash(req.body.password, 10)
+  .then(hash => {
+    // Create a new User
+    const newUser = {
+      pseudo: req.body.pseudo,
+      email: req.body.email,
+      password: hash
+    }
+    // Save User in the database
+    User.create(newUser)
+    .then(() => res.status(201).json({message: 'success'}))
+    .catch(err => {
+     res.status(500).json({
+       message:
+         err.message || "Une erreur s'est produite pendant la création du nouvel utilisateur"
+     });
+   });
+  })
+  
+
+   
+
+};
+
+// Find a single User with an id
+exports.login = (req, res) => {
+  
+};
+// Retrieve all Tutorials from the database.
+exports.findAll = (req, res) => {
+  
+};
+
+
+
+// Update a Tutorial by the id in the request
+exports.update = (req, res) => {
+  
+};
+
+// Delete a Tutorial with the specified id in the request
+exports.delete = (req, res) => {
+  
+};
+
+// Delete all Tutorials from the database.
+exports.deleteAll = (req, res) => {
+  
+};
+
+// Find all published Tutorials
+exports.findAllPublished = (req, res) => {
+  
+};
+
+
+
+
+/*const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const squelize = require("../models/db.js");
 const User = require('../models/user');
 
 
 //User logout
-exports.signup = (req, res) => {
+/*exports.signup = (req, res) => {
     
     //Verify if user exists
     sql.query("SELECT email FROM users WHERE email = '" +req.body.email+ "'", (err, result) => {
@@ -43,6 +112,7 @@ exports.signup = (req, res) => {
 
 
 //User login
+let t = 1;
 exports.login = (req, res) => {
     sql.query("SELECT id, email, pseudo, password FROM users WHERE email = '" +req.body.email+ "'", (err, result) => {
         
@@ -58,19 +128,30 @@ exports.login = (req, res) => {
             if(!valid){
                 return res.status(401).json({ error: 'Mot de passe incorrect !' })
             }
+            t +=1
             return res.status(200).json({
               userId: user.id,
                 token: jwt.sign(
                     {userId: user._id},
                     'secret',
-                    {expiresIn: '24h'}
-                )
+                    {expiresIn: '24h'}, 
+                ),
+                time: t
             })
         })
         .catch(error => res.status(500).json({ error }))
       }else{
         // If user not found with the email
-        res.status(401).json({ error: 'Utilisateur non trouvé !'})
+        t +=1;
+        res.status(401).json({ error: 'Utilisateur non trouvé !', time: t})
       }      
     });
 }
+(async () => {
+  await sequelize.sync({ force: true });
+  // Code here
+})();
+
+/*squelize.User.create({ pseudo: "Jane", email: "mm@mmm", password: "mm" })
+.then(user => console.log(user))
+.then(err => console.log(err))*/

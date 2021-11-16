@@ -19,7 +19,9 @@ import { useState } from 'react';
 import DecoColumn from './logDecoCol.jpg'
 import './Login.css'
 import CircularProgress from '@mui/material/CircularProgress';
+import { Login_controller } from './Login_controller';
 export default function Login() {
+    let t = 1;
     const [values, setValues] = useState({
         email: '',
         password: '',
@@ -43,103 +45,113 @@ export default function Login() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmitting = () => {
-        setLoading(true) 
-        setTimeout(() => {
-            setLoading(false)
-            setOpen(true)
-        }, 2000)
+    //Soumission formulaire
+    const handleSubmitting = (user) => {
+        Login_controller(user)
+        .then(result => {console.log(result)})
+        .catch(error => {console.log(error)})
+        //alert(form.target.elements.email.value)
+        //alert(form.target.elements.password.value)
+        //console.log(form.elements.email.value)
+        //setLoading(true) 
+        //setTimeout(() => {
+            //setLoading(false)
+            //setOpen(true)
+       // }, 2000)
     }
 
     return (
-
-         <DisplayLoadingContent loadingContent={< LoadMainContent/>}>
              <Box className="loginContainer">
-
                 <Box id="imgCol" >
                     <img src={DecoColumn} style={{maxWidth: "100%"}} alt="décoration de la page login"/>
                 </Box>
-
-             <Container className="formContainer">
-                <h1>Connexion</h1>      
-                <form>
-                <Box sx={{mb: 2}}>
-                    <FormControl sx={{width: '30ch'}} variant="filled">
-                        <InputLabel htmlFor="email">Email</InputLabel>
-                        <FilledInput
-                            
-                            autoFocus
-                            id="email"
-                            type="text"
-                            value={values.email}
-                            onChange={handleChange('email')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <EmailRoundedIcon />
-                               </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </Box>
-                <Box sx={{mb: 2}}>
-                    <FormControl sx={{width: '30ch' }} variant="filled">
-                        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-                        <FilledInput
-                            id="filled-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Button variant="contained" sx={{width: '32ch', mb: 2}} size="large" disabled={open} onClick={() => handleSubmitting() }endIcon={<SendRoundedIcon/>}>
-                        Se connecter
-                    </Button>
-                    <Box sx={{width: "30ch"}} id="Collapses">
-                    <Collapse in={open}>
-                        <Alert
-                            variant="outlined"
-                            severity="error"
-                            action={
-                                <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => setOpen(false)}
-                                >
-                                <CloseIcon fontSize="inherit" />
-                                </IconButton>
-                            }
-                        sx={{ mb: 2 }}
-                        >
-                            Mot de passe incorrect !
-                        </Alert>
-                    </Collapse>
-                    <Box>
-                        <Collapse sx={{textAlign: 'center', width: '30ch', mt:1}} in={loading}>
-                            <CircularProgress />
-                        </Collapse >
-                    </Box>
-                    </Box>
-                    
-                </Box>
-
-                </form>
-             </Container>
+                <Container className="formContainer">
+                    <h1>Connexion</h1>      
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        const user = {
+                            email: e.target.elements.email.value,
+                            password: e.target.elements.password.value,
+                        }
+                        handleSubmitting(user)
+                    }}>
+                        <Box sx={{mb: 2}}>
+                            <FormControl sx={{width: '30ch'}} variant="filled">
+                                <InputLabel htmlFor="email">Email</InputLabel>
+                                <FilledInput
+                                    required
+                                    autoFocus
+                                    name="email"
+                                    id="email"
+                                    type="text"
+                                    value={values.email}
+                                    onChange={handleChange('email')}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <EmailRoundedIcon />
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box sx={{mb: 2}}>
+                            <FormControl sx={{width: '30ch' }} variant="filled">
+                                <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                                <FilledInput
+                                    required
+                                    name="password"
+                                    id="filled-adornment-password"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    onChange={handleChange('password')}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                        >
+                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <Button type="submit" variant="contained" sx={{width: '32ch', mb: 2}} size="large" disabled={open} onClick={() => handleSubmitting() }endIcon={<SendRoundedIcon/>}>
+                                Se connecter
+                            </Button>
+                            <Box sx={{width: "30ch"}} id="Collapses">
+                                <Collapse in={open}>
+                                    <Alert
+                                        variant="outlined"
+                                        severity="error"
+                                        action={
+                                            <IconButton
+                                                aria-label="close"
+                                                color="inherit"
+                                                size="small"
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                <CloseIcon fontSize="inherit" />
+                                            </IconButton>
+                                        }
+                                        sx={{ mb: 2 }}
+                                    >
+                                        Mot de passe incorrect !
+                                    </Alert>
+                                </Collapse>
+                                <Box>
+                                    <Collapse sx={{textAlign: 'center', width: '30ch', mt:1}} in={loading}>
+                                        <CircularProgress />
+                                     </Collapse >
+                                </Box>
+                            </Box>
+                        </Box>
+                    </form>
+                </Container>
              </Box>
-         </DisplayLoadingContent>
     )
 }

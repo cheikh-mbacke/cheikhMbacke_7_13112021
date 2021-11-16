@@ -1,11 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
-const authRoutes = require('./routes/auth');
-
+const authRoutes = require('./routes/auth.route');
 
 
 
 const app = express()
+
+const db = require("./models");
+db.sequelize.sync();
 app.use(helmet());
 /*Analyser les corps des requêtes entrantes
 Comme la forme req.body est basée sur une entrée
