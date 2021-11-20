@@ -1,5 +1,13 @@
+/* React components */
 import React from 'react';
+import {Link } from 'react-router-dom';
+
+/* customized components */
 import AppBar from '@mui/material/AppBar';
+import AccountMenu from '../accountMenu/AccountMenu'
+import './NavBar.css'
+
+/* Material UI Components */
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -7,20 +15,20 @@ import Typography from '@mui/material/Typography';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Button from '@mui/material/Button';
+
+/* Material UI Icons */
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LanguageIcon from '@mui/icons-material/Language';
-import AccountMenu from '../accountMenu/AccountMenu'
-import {Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import './NavBar.css'
+import LoginIcon from '@mui/icons-material/Login';
 
-export default function NavBar() {
 
-  const [toggle, setToggle] = React.useState(true);
+export default function NavBar(props) {
+
+  const [toggle, setToggle] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -40,6 +48,10 @@ export default function NavBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  if(props.menu){
+    setToggle(props.menu)
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -80,7 +92,7 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {toggle ? 
+      {!toggle ? 
       <Box>
         <MenuItem>
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -151,7 +163,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', sm: 'flex'}}}>
               
-            {toggle ?
+            {!toggle ?
             <div>
         
                 <Link to="Login" className="links">

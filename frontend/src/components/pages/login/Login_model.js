@@ -14,9 +14,9 @@ export function Login_model(user) {
         return res.json()
         .then(result => {
             if(result.error === undefined){
-                resolve({type: 'success', data: result})
+                resolve(result)
             }else{
-                reject({type: 'error', data: result.error})
+                reject(result)
             }
         })
 

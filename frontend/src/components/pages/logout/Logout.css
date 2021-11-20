@@ -1,0 +1,18 @@
+.loginContainer{
+    display: flex;
+    height: 90vh;
+    overflow-y: hidden;
+}
+
+
+@media screen and (max-width: 400px) {
+    #imgCol{
+        display: none;
+    }
+    .formContainer{
+        text-align: center;
+    }
+    #Collapses{
+        margin: auto;
+    }
+}
