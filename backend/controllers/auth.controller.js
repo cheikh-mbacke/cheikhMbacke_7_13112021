@@ -1,3 +1,4 @@
+
 const db = require("../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
@@ -67,6 +68,38 @@ exports.login = (req, res) => {
     .catch(error => res.status(500).json({ error: "Erreur dans la requête  sql" }));
   
 };
+
+// Update user profil by the id in the request
+exports.updateUser = (req, res) => {
+  return res.send({message: "succès"})
+  const user = req.file ?
+    {
+      ...JSON.parse(req.body),
+      avatarPath: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+
+  User.update(user, {
+    where: { id: user.userId }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.status(200).json({
+          message: "succès"
+        });
+      } else {
+        res.status(400).json({
+          error: `Mise à jour échouée ! Contactez votre administrateur pour en savoir plus`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        error: "Erreur dans la requête  sql"
+      });
+    });
+};
+
+
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   
@@ -74,10 +107,6 @@ exports.findAll = (req, res) => {
 
 
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
-  
-};
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {

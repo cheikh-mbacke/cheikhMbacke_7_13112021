@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import CreateAPost from '../createAPost/CreateAPost';
 import DisplayPost from '../displayPost/DisplayPost'
 import Membre from '../membre/Membre'
+import Test from './Test'
 function App() {
 
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="CreateAPost" element={<CreateAPost />} />
             <Route path="DisplayPost" element={<DisplayPost />} />
             <Route path="Membre" element={<Membre />} />
+            <Route path="Test" element={<Test />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
         </BrowserRouter>

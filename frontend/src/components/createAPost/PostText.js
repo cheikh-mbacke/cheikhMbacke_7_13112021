@@ -10,7 +10,7 @@ export default function PostText() {
   }*/
 
   const handleImageUpload = ( targetImgElement ,  index ,  état ,  ImageInfo ,  remainingFilesCount ) =>{ 
-	console.log ( targetImgElement ,  index ,  état ,  ImageInfo ,  remainingFilesCount ) 
+	console.log (ImageInfo.src) 
     }
     const handleImageUploadError = ( errorMessage ,  result ) =>{ 
         console.log ("message d'erreur ,  résultat ") 
@@ -25,9 +25,16 @@ export default function PostText() {
     const handleVideoUploadError = ( errorMessage ,  result ) =>{ 
         console.log ("message d'erreur ,  résultat" ) 
     } 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(e.target.elements.editor.value);
+    };
+ 
 
     return (
-        <SunEditor 
+       <form onSubmit={handleSubmit}>
+            <SunEditor
+            name="editor"
         height = "50vh"
         lang="fr" 
         placeholder="Texte (facultatif)"
@@ -36,6 +43,7 @@ export default function PostText() {
         onImageUploadError = { handleImageUploadError }
         onVideoUpload = { handleVideoUpload }
         onVideoUploadError = { handleVideoUploadError }
+
         setOptions={{
             height: 200,
             buttonList: buttonList.basic // Or Array of button list, eg. [['font', 'align'], ['image']]
@@ -43,5 +51,9 @@ export default function PostText() {
             // Other option
     }}
         />
+        <div>
+            <input type="submit" />
+        </div>
+       </form>
     )
 }

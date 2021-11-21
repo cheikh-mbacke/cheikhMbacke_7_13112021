@@ -1,9 +1,10 @@
+
 const express = require('express');
 const helmet = require('helmet');
 const authRoutes = require('./routes/auth.route');
+const path = require('path');
 
-
-
+global.__basedir = __dirname;
 const app = express()
 
 const db = require("./models");
@@ -15,6 +16,7 @@ contrôlée par l'utilisateur, toutes les propriétés
 et valeurs de cet objet ne sont pas approuvées et
 doivent être validées avant d'être approuvées*/
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Configuration CORS
 app.use((req, res, next) => {
@@ -27,7 +29,12 @@ app.use((req, res, next) => {
 
 //requêtes d'authentification
 app.use('/api/auth', authRoutes);
+const controller = require("./controllers/file.controller");
 //app.use('/api/auth', (req, res, next) => res.status(200).json(req.body));
+app.use('/resources/static/assets/uploads/', express.static(path.join(__dirname, 'uploads')));
 
+app.post("/api/upload", controller.upload);
+app.get("/files", controller.getListFiles);
+app.get("/files/:name", controller.download);
 
 module.exports = app
