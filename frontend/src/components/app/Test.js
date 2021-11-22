@@ -12,40 +12,27 @@ export default function Test() {
         if(t){
             const data = new FormData() ;
             data.append('file', file);
-            data.append('pseudo', 'serigne mor');
             data.append('userId', 5);
-            axios.post("http://localhost:3000/api/auth/5", data)
+            axios.post("http://localhost:3000/api/post/video", data, {headers: {
+                'Content-Type': 'multipart/form-data'
+              }})
             .then(res => { // then print response status
                 console.log(res)
                 setT(false)
             })
         }
     })
-    const handleImageUpload = ( targetImgElement ,  index ,  état ,  ImageInfo ,  remainingFilesCount ) =>{ 
-        console.log (ImageInfo) 
-        setFile(ImageInfo)
-        }
+
     function uploadFile(event){
         event.preventDefault()
+        setFile(event.target.elements.avatar.files[0])
+        console.log(event.target.elements.avatar.files[0]);
         setT(true)
     }
     return (
         <form onSubmit={uploadFile}>
-            <SunEditor
-            name="editor"
-        height = "50vh"
-        lang="fr" 
-        placeholder="Texte (facultatif)"
-        autoFocus = { true }
-        onImageUpload = { handleImageUpload } 
-
-        setOptions={{
-            height: 200,
-            buttonList: buttonList.basic // Or Array of button list, eg. [['font', 'align'], ['image']]
-            // plugins: [font] set plugins, all plugins are set by default
-            // Other option
-    }}
-        />
+          
+            <input type="file" name="avatar"/>
             <input type="submit" />
         </form>
     )

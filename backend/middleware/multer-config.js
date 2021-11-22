@@ -3,10 +3,19 @@ const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpeg',
     'image/png': 'png',
+    'video/mp4': 'mp4',
+    'video/avi': 'avi',
+    'video/mkv': 'mkv',
+    'video/mov': 'mov'
 }
 const storage = multer.diskStorage({
     destination: (req, file, callback) =>{
-        callback(null, 'images');
+        
+        if(file.mimetype.startsWith('image')){
+            callback(null, 'images')
+        }else{
+            callback(null, 'videos')
+        }
     },
     filename: (req, file, callback) =>{
         const name = file.originalname.split(' ').join('_');
