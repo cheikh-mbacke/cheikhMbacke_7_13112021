@@ -1,0 +1,23 @@
+.card-items{
+    display: flex;
+}
+@media (max-width: 992px) { 
+    .card-items{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.profilIMG > img{
+    width: 150px;
+    height: 150px;
+    border-radius: 75px 75px;
+    max-width: 100%;
+}
+@media (max-width: 450px) { 
+    .typoMobile{
+        font-size: 14px;
+    }
+    .typoHeadingMobile{
+        font-size: 16px; 
+    }
+}

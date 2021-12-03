@@ -16,11 +16,14 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
-db.users = require("./user.model.js")(sequelize, Sequelize);
-db.posts = require("./post.model.js")(sequelize, Sequelize);
-db.textPosts = require("./textPost.model.js")(sequelize, Sequelize);
-db.linkPosts = require("./linkPost.model.js")(sequelize, Sequelize);
-db.videoPosts = require("./videoPost.model.js")(sequelize, Sequelize);
+const [User, Privilege] = require("./user.model.js")(sequelize, Sequelize)
+db.Users = User
+db.Privileges = Privilege
+db.Posts = require("./post.model.js")(sequelize, Sequelize);
+db.TextPosts = require("./textPost.model.js")(sequelize, Sequelize);
+db.LinkPosts = require("./linkPost.model.js")(sequelize, Sequelize);
+db.VideoPosts = require("./videoPost.model.js")(sequelize, Sequelize);
+db.PostReactions = require("./postReaction.model.js")(sequelize, Sequelize);
+db.Comments = require("./comment.model.js")(sequelize, Sequelize);
 
 module.exports = db;

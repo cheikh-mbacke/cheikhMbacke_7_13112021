@@ -3,14 +3,6 @@ module.exports = (sequelize, Sequelize) => {
       content: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      likes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      dislikes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
       }
     })
   

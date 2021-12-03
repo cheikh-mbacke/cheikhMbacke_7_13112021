@@ -11,14 +11,6 @@ module.exports = (sequelize, Sequelize) => {
       subTitle: {
         type: Sequelize.STRING,
         allowNull: true
-      },
-      likes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      dislikes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
       }
     })
   

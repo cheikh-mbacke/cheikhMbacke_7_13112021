@@ -1,3 +1,12 @@
-html, body{
-    background-color: rgba(102, 178, 255, 0.15);
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+html, body {
+  margin: 0;
+  background-color: #EAEEF3;
 }
+body{
+  font-family: 'Roboto', sans-serif;
+
+}
+

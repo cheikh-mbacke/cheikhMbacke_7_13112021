@@ -3,6 +3,9 @@ const path = require('path');
 const helmet = require('helmet');
 const authRoutes = require('./routes/auth.route');
 const postRoutes = require('./routes/post.route');
+const commentRoutes = require('./routes/comment.route');
+const userRoutes = require('./routes/user.route');
+
 
 const app = express()
 //connexion à la BDD mongoDB Atlas
@@ -29,9 +32,13 @@ app.use((req, res, next) => {
 //requêtes d'authentification
 app.use('/api/auth', authRoutes);
 
-
+//user req
+app.use('/api/users', userRoutes);
 
 //requête post
 app.use('/api/post', postRoutes);
+
+//comments req
+app.use('/api/comment', commentRoutes);
 
 module.exports = app

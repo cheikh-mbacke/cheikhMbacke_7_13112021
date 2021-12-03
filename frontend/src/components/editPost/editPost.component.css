@@ -1,0 +1,49 @@
+.editPost{
+    margin: auto;
+    width: 50%;
+}
+@media screen and (max-width: 992px) {
+    .editPost {
+        width: 100%;
+    }
+}
+
+.editPostProfil{
+    display: flex;
+}
+.editPostProfil > .imgContainer{
+    width: 60px;
+    height: 60px;
+}
+.editPostProfil > .imgContainer > img{
+    border-radius: 50% 50%;
+}
+
+.editPostProfil > .name {
+    flex-grow: 1;
+    text-align: center;
+    border-radius: 30px;
+}
+
+.editPostProfil > .name>p {
+    transform: translateY(70%);
+}
+
+.editPostItems {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5em;
+}
+
+.editPostItems > div {
+    transition: all ease-in-out 0.2s;
+    padding: 0.5em;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.editPostItems > div:hover {
+    cursor: pointer;
+    background-color: #e0e8f1;
+    color: blue;
+}

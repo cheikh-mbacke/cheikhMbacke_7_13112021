@@ -4,17 +4,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      idTextPost: {
+      idPost: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: false
       },
-      idVideoPost: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      idLinkPost: {
-        type: Sequelize.INTEGER,
-        allowNull: true
+      postType: {
+        type: Sequelize.STRING,
+        allowNull: false
       }
     })
   

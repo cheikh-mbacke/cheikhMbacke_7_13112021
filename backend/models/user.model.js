@@ -12,21 +12,23 @@ module.exports = (sequelize, Sequelize) => {
     password: {
       type: Sequelize.STRING,
       allowNull: false
-    },
-    birthDate: {
-      type: Sequelize.DATE,
-      allowNull: true
-    },
-    description: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    avatarPath: {
-      type: Sequelize.STRING,
-      allowNull: true
     }
   })
 
-  return User;
+  const Privilege = sequelize.define('Privilege', {
+    userId: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  })
+
+  User.hasMany(Privilege, {foreignKey: 'id'})
+  Privilege.belongsTo(User, {foreignKey: 'userId'})
+
+  return [User, Privilege];
 };
 

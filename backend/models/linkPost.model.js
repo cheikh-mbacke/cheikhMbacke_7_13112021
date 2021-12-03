@@ -7,14 +7,6 @@ module.exports = (sequelize, Sequelize) => {
       url: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      likes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      dislikes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
       }
     })
   
