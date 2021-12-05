@@ -5,6 +5,9 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
+export const POST_SUCCESS = "POST_SUCCESS";
+export const POST_FAIL = "POST_FAIL";
+
 
 
 export const SET_MESSAGE = "SET_MESSAGE";

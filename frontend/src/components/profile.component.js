@@ -12,10 +12,7 @@ class Profile extends Component {
   }
 
   handleDelete(userId) {
-
-
-    const { dispatch, history , message} = this.props;
-
+    const { dispatch } = this.props;
     if (userId) {
       dispatch(deleteUser(userId))
         .then(() => {

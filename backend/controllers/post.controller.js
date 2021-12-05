@@ -3,14 +3,16 @@ const Post = db.Posts;
 const TextPost = db.TextPosts;
 const LinkPost = db.LinkPosts;
 const VideoPost = db.VideoPosts;
+const ImgPost = db.ImgPosts;
 const PostReaction = db.PostReactions;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new TextPost
 exports.createATextPost = (req, res) => {
-    TextPost.create({content: req.body.content})
+  console.log(req.body.data);
+    TextPost.create({content: req.body.data.content})
     .then(result => {
-        Post.create({userId:req.body.userId, idPost: result.id, postType: "TextPosts"})
+        Post.create({userId:req.body.data.userId, idPost: result.id, postType: "TextPosts"})
         .then(() => res.status(201).json({message: "succès"}))
         .catch(err => res.status(500).json({ err }))
         
@@ -21,9 +23,9 @@ exports.createATextPost = (req, res) => {
 
 // Create and Save a new LinkPost
 exports.createALinkPost = (req, res) => {
-    LinkPost.create({title: req.body.title, url: req.body.url})
+    LinkPost.create({title: req.body.data.title, url: req.body.data.url})
     .then(result => {
-        Post.create({userId:req.body.userId, idPost: result.id, postType: "LinkPosts"})
+        Post.create({userId:req.body.data.userId, idPost: result.id, postType: "LinkPosts"})
         .then(() => res.status(201).json({message: "succès"}))
         .catch(err => res.status(500).json({ err }))
         
@@ -33,15 +35,35 @@ exports.createALinkPost = (req, res) => {
 
 // Create and Save a new VideoPost
 exports.createAVideoPost = (req, res) => {
+  console.log(req.body);
     const videoPost = req.file ?
     {
       ...req.body,
-      path: `${req.protocol}://${req.get('host')}/video/${req.file.filename}`
+      path: `${req.protocol}://${req.get('host')}/videos/${req.file.filename}`
     } : { ...req.body };
 
-    VideoPost.create({path: videoPost.path, title: videoPost.title, subTitle: videoPost.dubTitle})
+    VideoPost.create({path: videoPost.path, title: videoPost.title})
     .then(result => {
         Post.create({userId:req.body.userId, idPost: result.id, postType: "VideoPosts"})
+        .then(() => res.status(201).json({message: "succès"}))
+        .catch(err => res.status(500).json({ err }))
+        
+    })
+    .catch(error => res.status(500).json({ error }))
+};
+
+// Create and Save a new VideoPost
+exports.createAImgPost = (req, res) => {
+ 
+    const imgPost = req.file ?
+    {
+      ...req.body,
+      path: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+
+    ImgPost.create({path: imgPost.path, title: imgPost.title})
+    .then(result => {
+        Post.create({userId:req.body.userId, idPost: result.id, postType: "ImgPosts"})
         .then(() => res.status(201).json({message: "succès"}))
         .catch(err => res.status(500).json({ err }))
         

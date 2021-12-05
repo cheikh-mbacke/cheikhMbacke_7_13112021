@@ -4,12 +4,13 @@ import TextPost from './textPost/textPost.component'
 import LinkPost from './linkPost/linkPost.component'
 import ImgPost from './imgPost/imgPost.component'
 import VideoPost from './videoPost/videoPost.component'
-
 import { useState } from 'react'
+import { textPost } from '../../actions/post.action'
 
 
 export default function EditPost() {
     const [postType, setPostEdit] = useState(null)
+
     const showEditPost = (postType) => {
         setPostEdit(postType)
     }

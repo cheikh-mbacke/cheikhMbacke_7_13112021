@@ -23,6 +23,7 @@ db.Posts = require("./post.model.js")(sequelize, Sequelize);
 db.TextPosts = require("./textPost.model.js")(sequelize, Sequelize);
 db.LinkPosts = require("./linkPost.model.js")(sequelize, Sequelize);
 db.VideoPosts = require("./videoPost.model.js")(sequelize, Sequelize);
+db.ImgPosts = require("./imgPost.model.js")(sequelize, Sequelize);
 db.PostReactions = require("./postReaction.model.js")(sequelize, Sequelize);
 db.Comments = require("./comment.model.js")(sequelize, Sequelize);
 
