@@ -1,0 +1,55 @@
+.postFrame {
+    margin: auto;
+    width: 50%;
+}
+
+@media screen and (max-width: 992px) {
+    .postFrame {
+        width: 100%;
+    }
+}
+
+.ConnectedBadge {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 23px;
+}
+
+.interactItems {
+    display: flex;
+    justify-content: space-around;
+}
+
+.interactItems>p {
+    transition: all ease-in-out 0.2s;
+    padding: 0.5em;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.interactItems>p:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2)
+}
+
+.gotoAlign {
+    display: none;
+}
+
+@media screen and (max-width: 400px) {
+    .gotoAlign {
+        display: block;
+    }
+}
+.frameProfil{
+    background-color: aqua;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% 50%;
+    text-align: center;
+}
+.frameName{
+    display: inline-block;
+    transform: translateY(35%);
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import UserService from "../services/user.service";
 import EditPost from './editPost/editPost.component'
+import PostFrame from "./postFrame/postFrame.component";
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,7 @@ export default class Home extends Component {
     return (
       <div className="container">
         <EditPost />
+        <PostFrame />
       </div>
     );
   }
