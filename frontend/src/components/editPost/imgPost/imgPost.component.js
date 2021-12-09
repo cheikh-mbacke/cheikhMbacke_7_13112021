@@ -22,7 +22,7 @@ class ImgPost extends Component {
 
         dispatch(imgPost(postData))
             .then(() => {
-                //window.location.reload()
+                window.location.reload()
             })
     }
     render() {

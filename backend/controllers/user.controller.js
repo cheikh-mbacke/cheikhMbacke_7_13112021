@@ -21,15 +21,21 @@ exports.deleteUser = (req, res) => {
                         destroyUserReactions(userId).then(() => {
                             destroyUserCredentials(userId).then(() => {
                                 res.status(200).json({ message: "succès" })
-                            }).catch(err => res.status(500).json({message: err}))
-                        }).catch(err => res.status(500).json({message: err}))
-                    }).catch(err => res.status(500).json({message: err}))
-                }).catch(err => res.status(500).json({message: err}))
-            }).catch(err => res.status(500).json({message: err}))
-        }).catch(err => res.status(500).json({message: err}))
-    }).catch(err => res.status(500).json({message: err}))
+                            }).catch(err => res.status(500).json({ message: err }))
+                        }).catch(err => res.status(500).json({ message: err }))
+                    }).catch(err => res.status(500).json({ message: err }))
+                }).catch(err => res.status(500).json({ message: err }))
+            }).catch(err => res.status(500).json({ message: err }))
+        }).catch(err => res.status(500).json({ message: err }))
+    }).catch(err => res.status(500).json({ message: err }))
 };
 
+exports.getOneUser = (req, res) => {
+    console.log(req.params.id);
+    User.findOne({ where: { id: req.params.id}, attributes: ['pseudo'],})
+        .then(user => res.status(200).json(user))
+        .catch(error => res.status(404).json({message: error }));
+}
 //get standars users 
 exports.standardsUsers = (req, res) => {
     Privilege.findAll({ where: { role: 'user' }, attributes: ['userId'] })

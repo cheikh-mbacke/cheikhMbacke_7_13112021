@@ -46,6 +46,9 @@ class PostService {
         return response;
       });
   }
+  getPosts() {
+    return axios.get(API_URL + "allPosts");
+  }
 }
 
 export default new PostService();

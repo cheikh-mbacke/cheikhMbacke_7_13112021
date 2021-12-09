@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const ImgPost = sequelize.define('ImgPost', {
-        path: {
+        imgPath: {
             type: Sequelize.STRING,
             allowNull: false
         },

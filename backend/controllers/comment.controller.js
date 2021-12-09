@@ -1,14 +1,16 @@
-const db = require("../models");
-const Comment = db.comments;
-const User = db.users;
+const db = require("../models/index");
+const Comment = db.Comments;
+const User = db.Users;
 
 //Create and Save a new Comment
 exports.createAComment = (req, res) => {
+    console.log(req.body)
+    
     Comment.create(req.body)
-        .then(result => {
+        .then(() => {
             res.status(201).json({ message: "succès" })
         })
-        .catch(error => res.status(500).json({ error: "Erreur dans la requête sql" }))
+        .catch(error => res.status(500).json({ message: "Erreur dans la requête sql" }))
 };
 
 //Get all comments for a post

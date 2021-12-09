@@ -4,16 +4,16 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false
       },
+      pseudo: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       idPost: {
         type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      postType: {
-        type: Sequelize.STRING,
         allowNull: false
       }
     })

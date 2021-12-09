@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const VideoPost = sequelize.define('VideoPost', {
-      path: {
+      videoPath: {
         type: Sequelize.STRING,
         allowNull: false
       },

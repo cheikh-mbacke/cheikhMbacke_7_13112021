@@ -13,7 +13,8 @@
     width: 10px;
     height: 10px;
     position: absolute;
-    bottom: 23px;
+    
+    left: 0;
 }
 
 .interactItems {

@@ -24,7 +24,7 @@ class VideoPost extends Component {
 
         dispatch(videoPost(postData))
             .then(() => {
-                //window.location.reload()
+                window.location.reload()
             })
     }
     render() {
