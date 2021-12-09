@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import Moment from 'moment';
+
 class commentBody extends Component {
+
+    
+
+    
+
+
     render() {
-        console.log(this.props.comment.pseudo);
         return (
             <div>
                 <div className="d-flex mb-2">

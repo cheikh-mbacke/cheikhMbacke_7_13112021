@@ -1,6 +1,6 @@
 import { 
-    POST_SUCCESS, 
-    POST_FAIL, 
+    POST_COMMENT_SUCCESS, 
+    POST_COMMENT_FAIL, 
   } from "./types";
   
   const user = JSON.parse(localStorage.getItem("user"));
@@ -13,12 +13,12 @@ import {
     const { type, payload } = action;
   
     switch (type) {
-      case POST_SUCCESS:
+      case POST_COMMENT_SUCCESS:
         return {
           ...state,
           user: null,
         };
-      case POST_FAIL:
+      case POST_COMMENT_FAIL:
         return {
           ...state,
           user: payload.user,

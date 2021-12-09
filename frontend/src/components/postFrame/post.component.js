@@ -2,11 +2,38 @@ import React, { Component } from 'react'
 import Moment from 'moment';
 import { connect } from "react-redux";
 import CommentComponent from './comment.component';
+import CommentService from '../../services/comment.service'
 class PostComponent extends Component {
 
+    constructor(props) {
+        super(props);
+        this.handlePostComment= this.handlePostComment.bind(this);
+        this.state = {
+            datas: this.props.datas
+        }
+    };
+    
+    handlePostComment(commentData) {
+
+        CommentService.postComment(commentData)
+        .then(result => {
+            
+            this.setState = {
+                datas: this.state.datas.comments = result.data
+            }
+            console.log(result.data);
+            console.log(this.state.datas.comments);
+            this.forceUpdate()
+            
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }
+
+    
 
     render() {
-        console.log(this.props.datas);
         return (
             <div className="card postFrame mb-2" >
                 <div className="card-body px-0 pb-0">
@@ -22,32 +49,32 @@ class PostComponent extends Component {
 
                     </div>
 
-                    {this.props.datas.content &&
+                    {this.state.datas.content &&
 
-                        <div className="mb-2 px-2" dangerouslySetInnerHTML={{ __html: this.props.datas.content }} >
+                        <div className="mb-2 px-2" dangerouslySetInnerHTML={{ __html: this.state.datas.content }} >
                         </div>
                     }
 
-                    {this.props.datas.title &&
+                    {this.state.datas.title &&
                         <div className="mb-2 px-2">
-                            <p>{this.props.datas.title}</p>
-                            {this.props.datas.url &&
-                                <a href={this.props.datas.url}>{this.props.datas.url}</a>
+                            <p>{this.state.datas.title}</p>
+                            {this.state.datas.url &&
+                                <a href={this.state.datas.url}>{this.state.datas.url}</a>
                             }
                         </div>
                     }
 
 
-                    {this.props.datas.imgPath &&
+                    {this.state.datas.imgPath &&
                         <div>
-                            <img src={this.props.datas.imgPath} className="img-fluid" alt="photo postée" />
+                            <img src={this.state.datas.imgPath} className="img-fluid" alt="photo postée" />
                         </div>
                     }
 
-                    {this.props.datas.videoPath &&
+                    {this.state.datas.videoPath &&
                         <div className="embed-responsive embed-responsive-16by9">
                             <video controls="controls" style={{ objectFit: "cover" }} id="videoPost">
-                                <source src={this.props.datas.videoPath} type="video/mp4" />
+                                <source src={this.state.datas.videoPath} type="video/mp4" />
                                 Sorry, your browser doesn't support embedded videos.
                             </video>
                         </div>
@@ -60,7 +87,7 @@ class PostComponent extends Component {
                             aria-controls="postFrameCollapse">
                             <i className="far fa-comments"></i> <br className="gotoAlign" />
                             Commenter<br className="gotoAlign" />
-                            ({this.props.datas.comments.length})
+                            ({this.state.datas.comments.length})
                         </p>
                     </div>
                     <div className="collapse" id={`post${this.props.idCollapse}`}>
@@ -73,19 +100,29 @@ class PostComponent extends Component {
                                         alt="photo de profil"
                                     />
                                 </div>
-                                <form action="" className="ml-2 flex-grow-1">
+                                <form action="" className="ml-2 flex-grow-1" onSubmit={(e) =>{
+                                    e.preventDefault()
+                                    const postData = {
+                                        content: e.target.elements.comment.value,
+                                        userId: this.state.datas.userId,
+                                        idPost: this.state.datas.id,
+                                        pseudo: this.state.datas.pseudo,
+                                    }
+                                    this.handlePostComment(postData)
+                                    e.target.elements.comment.value = ""
+                                }}>
                                     <div className="form-group">
-                                        <input type="text" className="form-control" placeholder="Ajouter un commentaire ..." id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                        <input type="text" className="form-control" name="comment" placeholder="Ajouter un commentaire ..."  />
                                     </div>
                                 </form>
                             </div>
-                            {this.props.datas.comments.length === 0 ?
+                            {this.state.datas.comments.length === 0 ?
 
                                 <div className="text-center pt-2"><p><em>Aucun commentaire</em></p></div>
                                 :
 
 
-                                <CommentComponent comments={this.props.datas.comments} />
+                                <CommentComponent comments={this.state.datas.comments} />
 
 
 

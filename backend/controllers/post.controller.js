@@ -96,6 +96,7 @@ exports.getAllPosts = (req, res) => {
                 Comment.findAll({ where: { idPost: post.id } })
                   .then(comments => {
                     post['dataValues'].pseudo = data.pseudo;
+                    post['dataValues'].userId = elt.userId;
                     post['dataValues'].comments = comments;
                     posts.push(post['dataValues'])
                     nbrTour--;

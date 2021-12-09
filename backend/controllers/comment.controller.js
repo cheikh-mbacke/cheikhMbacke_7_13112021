@@ -4,11 +4,16 @@ const User = db.Users;
 
 //Create and Save a new Comment
 exports.createAComment = (req, res) => {
-    console.log(req.body)
+    console.log(req.body.data)
     
-    Comment.create(req.body)
+    Comment.create(req.body.data)
         .then(() => {
-            res.status(201).json({ message: "succès" })
+            Comment.findAll({where: {idPost: req.body.data.idPost}})
+            .then(result => {
+                res.status(201).json(result)
+            })
+            .catch(error => res.status(500).json({ message: "Erreur dans la requête sql" }))
+            
         })
         .catch(error => res.status(500).json({ message: "Erreur dans la requête sql" }))
 };
