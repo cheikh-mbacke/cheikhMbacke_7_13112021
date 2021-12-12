@@ -4,11 +4,6 @@ import Moment from 'moment';
 
 class commentBody extends Component {
 
-    
-
-    
-
-
     render() {
         return (
             <div>

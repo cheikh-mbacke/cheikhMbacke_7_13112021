@@ -3,37 +3,52 @@ import Moment from 'moment';
 import { connect } from "react-redux";
 import CommentComponent from './comment.component';
 import CommentService from '../../services/comment.service'
+import PostReactService from '../../services/postReaction.service'
 class PostComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.handlePostComment= this.handlePostComment.bind(this);
+        this.handlePostComment = this.handlePostComment.bind(this);
+        this.handleReaction = this.handleReaction.bind(this);
         this.state = {
             datas: this.props.datas
         }
     };
-    
+
     handlePostComment(commentData) {
 
         CommentService.postComment(commentData)
-        .then(result => {
-            
-            this.setState = {
-                datas: this.state.datas.comments = result.data
-            }
-            console.log(result.data);
-            console.log(this.state.datas.comments);
-            this.forceUpdate()
-            
-        }).catch(err => {
-            console.log(err);
-        })
+            .then(result => {
+
+                this.setState = {
+                    datas: this.state.datas.comments = result.data
+                }
+                this.forceUpdate()
+
+            }).catch(err => {
+                console.log(err);
+            })
 
     }
+    handleReaction(reactData) {
+        PostReactService.Reaction(reactData)
+            .then(result => {
+                this.props.datas.userHasLiked = result.data.userHasLiked;
+                this.props.datas.userHasDisLiked = result.data.userHasDisLiked;
 
-    
+                this.setState = {
+                    datas: this.props.datas.likes = result.data.like,
+                    datas: this.props.datas.dislikes = result.data.dislike,
+                }
+
+                this.forceUpdate()
+
+            }).catch(err => console.log(err))
+    }
+
 
     render() {
+        console.log(this.props.datas);
         return (
             <div className="card postFrame mb-2" >
                 <div className="card-body px-0 pb-0">
@@ -80,9 +95,49 @@ class PostComponent extends Component {
                         </div>
                     }
                     <hr />
-                    <div className="interactItems ">
-                        <p><i className="far fa-thumbs-up"></i> <br className="gotoAlign" />Aimer <br className="gotoAlign" />(400)</p>
-                        <p><i className="far fa-thumbs-down"></i> <br className="gotoAlign" /> Déprécier <br className="gotoAlign" />(100)</p>
+                    <div className="interactItems">
+                        <p className={this.props.datas.userHasLiked ? "text-primary" : ""} onClick={() => {
+                            const like = this.props.datas.userHasLiked ? 0 : 1
+                            const types = {
+                                TextPosts: "text",
+                                LinkPosts: "link",
+                                VideoPosts: "video",
+                                ImgPosts: "img"
+                            }
+                            const reactData = {
+                                postTableName: this.state.datas.postType,
+                                idPost: this.state.datas.id,
+                                userId: this.props.user.userId,
+                                like: like,
+                                type: types[this.state.datas.postType],
+                                userReact: "like"
+                            }
+                            console.log(reactData, this.state.userLiked);
+                            this.handleReaction(reactData)
+                        }}>
+                            <i className="far fa-thumbs-up"></i> <br className="gotoAlign" />Aimer <br className="gotoAlign" />({this.props.datas.likes})</p>
+                        <p className={this.props.datas.userHasDisLiked ? "text-primary" : ""}  onClick={() => {
+                            const dislike = this.props.datas.userHasDisLiked ? 0 : 1
+                            const types = {
+                                TextPosts: "text",
+                                LinkPosts: "link",
+                                VideoPosts: "video",
+                                ImgPosts: "img"
+                            }
+                            const reactData = {
+                                postTableName: this.state.datas.postType,
+                                idPost: this.state.datas.id,
+                                userId: this.props.user.userId,
+                                dislike: dislike,
+                                type: types[this.state.datas.postType],
+                                userReact: "dislike"
+                            }
+                            
+                            this.handleReaction(reactData)
+                        }}>
+                            
+                            <i className="far fa-thumbs-down"></i> <br className="gotoAlign" /> Déprécier <br className="gotoAlign" />({this.props.datas.dislikes})
+                        </p>
                         <p data-toggle="collapse" href={`#post${this.props.idCollapse}`} role="button" aria-expanded="false"
                             aria-controls="postFrameCollapse">
                             <i className="far fa-comments"></i> <br className="gotoAlign" />
@@ -90,6 +145,7 @@ class PostComponent extends Component {
                             ({this.state.datas.comments.length})
                         </p>
                     </div>
+                    
                     <div className="collapse" id={`post${this.props.idCollapse}`}>
                         <div className="card card-body">
                             <div className="d-flex">
@@ -100,7 +156,7 @@ class PostComponent extends Component {
                                         alt="photo de profil"
                                     />
                                 </div>
-                                <form action="" className="ml-2 flex-grow-1" onSubmit={(e) =>{
+                                <form action="" className="ml-2 flex-grow-1" onSubmit={(e) => {
                                     e.preventDefault()
                                     const postData = {
                                         content: e.target.elements.comment.value,
@@ -112,20 +168,14 @@ class PostComponent extends Component {
                                     e.target.elements.comment.value = ""
                                 }}>
                                     <div className="form-group">
-                                        <input type="text" className="form-control" name="comment" placeholder="Ajouter un commentaire ..."  />
+                                        <input type="text" className="form-control" name="comment" placeholder="Ajouter un commentaire ..." />
                                     </div>
                                 </form>
                             </div>
                             {this.state.datas.comments.length === 0 ?
-
                                 <div className="text-center pt-2"><p><em>Aucun commentaire</em></p></div>
                                 :
-
-
                                 <CommentComponent comments={this.state.datas.comments} />
-
-
-
                             }
 
                         </div>

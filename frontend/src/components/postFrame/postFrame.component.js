@@ -19,7 +19,7 @@ class PostFrame extends Component {
     }
 
     componentDidMount() {
-        PostService.getPosts().then(
+        PostService.getPosts({userId: this.props.user.userId}).then(
             response => {
                 this.setState({
                     content: response.data

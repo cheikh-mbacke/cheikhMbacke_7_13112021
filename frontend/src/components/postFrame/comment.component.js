@@ -10,7 +10,6 @@ class CommentComponent extends Component {
             indents.push(
                 <CommentBody key={uuidv4()}
                     comment={this.props.comments[i]}
-
                 />);
         }
         return indents;

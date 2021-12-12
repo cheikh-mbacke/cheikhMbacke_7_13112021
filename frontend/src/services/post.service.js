@@ -46,8 +46,9 @@ class PostService {
         return response;
       });
   }
-  getPosts() {
-    return axios.get(API_URL + "allPosts");
+  getPosts(userInfo) {
+    return axios.post(API_URL + "allPosts", userInfo).then(result => result)
+    .catch(err => err)
   }
 }
 

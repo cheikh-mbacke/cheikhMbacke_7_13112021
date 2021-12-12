@@ -6,7 +6,7 @@ router.post('/text', postCrtl.createATextPost);
 router.post('/link', postCrtl.createALinkPost);
 router.post('/video', multer, postCrtl.createAVideoPost);
 router.post('/img', multer, postCrtl.createAImgPost);
-router.get('/allPosts', postCrtl.getAllPosts);
+router.post('/allPosts', postCrtl.getAllPosts);
 router.post('/like', postCrtl.likeAPost);
 router.post('/dislike', postCrtl.dislikeAPost);
 router.get('/getAllLikes', postCrtl.getAllLikes);
