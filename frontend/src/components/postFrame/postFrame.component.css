@@ -1,6 +1,7 @@
 .postFrame {
     margin: auto;
     width: 50%;
+    background-color: #fff;
 }
 
 @media screen and (max-width: 992px) {
@@ -31,7 +32,8 @@
 
 .interactItems>p:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.2)
+    background-color:#e0e8f1;
+    color: blue;
 }
 
 .gotoAlign {
@@ -52,4 +54,7 @@
 .frameName{
     display: inline-block;
     transform: translateY(35%);
+}
+.comments, .comment{
+    background-color: #fff;
 }

@@ -46,6 +46,17 @@ class PostService {
         return response;
       });
   }
+  
+  deletePost(postData) {
+    return axios
+      .post(API_URL + "delete", postData)
+      .then((response) => {
+        return response;
+      }).catch(err => {
+        return err
+      })
+  }
+
   getPosts(userInfo) {
     return axios.post(API_URL + "allPosts", userInfo).then(result => result)
     .catch(err => err)

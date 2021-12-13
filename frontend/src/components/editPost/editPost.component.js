@@ -5,7 +5,7 @@ import LinkPost from './linkPost/linkPost.component'
 import ImgPost from './imgPost/imgPost.component'
 import VideoPost from './videoPost/videoPost.component'
 import { useState } from 'react'
-import { textPost } from '../../actions/post.action'
+import { Link } from 'react-router-dom'
 
 
 export default function EditPost( props) {
@@ -25,9 +25,7 @@ console.log();
                             alt="photo de profil"
                         />
                     </div>
-                    <div className="name border">
-                        <p>Cheikh</p>
-                    </div>
+                    <Link to="/profile" className="name border profilLink">Cheikh</Link>
                 </div>
                 <div className="editPostItems">
                     <div

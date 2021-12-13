@@ -1,6 +1,7 @@
 .editPost{
     margin: auto;
     width: 50%;
+    background-color: #fff;
 }
 @media screen and (max-width: 992px) {
     .editPost {
@@ -46,4 +47,14 @@
     cursor: pointer;
     background-color: #e0e8f1;
     color: blue;
+}
+.profilLink{
+    text-align: center;
+    display: block;
+    padding-top: 1.1em;
+    text-decoration: none !important;
+    transition: all 0.2s ease-in-out;
+}
+.profilLink:hover{
+    background-color: #e0e8f1;
 }

@@ -8,7 +8,7 @@ class CommentComponent extends Component {
         var indents = [];
         for (var i = 0; i < this.props.comments.length; i++) {
             indents.push(
-                <CommentBody key={uuidv4()}
+                <CommentBody  key={uuidv4()}
                     comment={this.props.comments[i]}
                 />);
         }

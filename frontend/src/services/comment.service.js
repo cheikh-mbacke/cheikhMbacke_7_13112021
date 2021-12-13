@@ -14,6 +14,17 @@ class CommentService {
       });
   }
 
+  deleteComment(postData) {
+    console.log(postData);
+    return axios
+      .post(API_URL + "delete", postData)
+      .then((response) => {
+        return response;
+      }).catch(err => {
+        return err
+      })
+  }
+
 }
 
 export default new CommentService();

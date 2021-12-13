@@ -17,6 +17,24 @@ exports.createAComment = (req, res) => {
         })
         .catch(error => res.status(500).json({ message: "Erreur dans la requête sql" }))
 };
+//Delete a Comment
+exports.deleteAComment = (req, res) => {
+    
+    Comment.destroy({where: {
+        id: req.body.id,
+        idPost: req.body.idPost,
+        userId: req.body.userId
+    }})
+        .then(num => {
+            if(num == 1){
+                res.status(200).json({message: "Commentaire supprimé !"}) 
+            }else{
+                res.status(400).json({message: "Le commentaire n'est pas supprimé !"})  
+            }
+             
+        })
+        .catch(err => res.status(500).json({ message: err }))
+};
 
 //Get all comments for a post
 exports.getAllcomments = (req, res) => {

@@ -76,7 +76,7 @@ exports.createAImgPost = (req, res) => {
 
 //Get All posts
 exports.getAllPosts = (req, res) => {
-  
+
   const postTypes = {
     TextPosts: TextPost,
     VideoPosts: VideoPost,
@@ -85,11 +85,11 @@ exports.getAllPosts = (req, res) => {
   }
   const posts = []
 
-  Post.findAll({ order: [['id', 'DESC']] })
+  Post.findAll({ order: [['createdAt', 'DESC']] })
     .then(result => {
-     
+
       let nbrTour = (result.length);
-      
+
       result.forEach(elt => {
         const table = postTypes[elt.postType];
         table.findOne({ where: { id: elt.idPost } })
@@ -110,17 +110,17 @@ exports.getAllPosts = (req, res) => {
                             likesNbr += Element.likes
                             dislikesNbr += Element.dislikes
                           });
-                          
+
                           post['dataValues'].likes = likesNbr;
                           post['dataValues'].dislikes = dislikesNbr;
-                          if(response){
+                          if (response) {
                             post['dataValues'].userHasLiked = response.likes === 1 ? true : false;
                             post['dataValues'].userHasDisLiked = response.dislikes === 1 ? true : false;
-                          }else{
+                          } else {
                             post['dataValues'].userHasLiked = false
                             post['dataValues'].userHasDisLiked = false
                           }
-              
+
                           post['dataValues'].pseudo = data.pseudo;
                           post['dataValues'].userId = elt.userId;
                           post['dataValues'].comments = comments;
@@ -185,7 +185,7 @@ exports.likeAPost = (req, res) => {
                             dislikesNbr += Element.dislikes
                           });
 
-                          return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: true})
+                          return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: true })
 
                         })
                         ///////
@@ -258,7 +258,7 @@ exports.likeAPost = (req, res) => {
                           dislikesNbr += Element.dislikes
                         });
 
-                        return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: true})
+                        return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: true })
 
                       })
                       ///////
@@ -306,7 +306,7 @@ exports.likeAPost = (req, res) => {
                     dislikesNbr += Element.dislikes
                   });
 
-                  return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: false})
+                  return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasLiked: false })
 
                 })
                 ///////
@@ -368,7 +368,7 @@ exports.dislikeAPost = (req, res) => {
                             dislikesNbr += Element.dislikes
                           });
 
-                          return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasDisLiked: true})
+                          return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasDisLiked: true })
 
                         })
                         ///////
@@ -441,7 +441,7 @@ exports.dislikeAPost = (req, res) => {
                           dislikesNbr += Element.dislikes
                         });
 
-                        return res.status(200).send({ dislike: likesNbr, dislike: dislikesNbr, userHasDisLiked: true})
+                        return res.status(200).send({ dislike: likesNbr, dislike: dislikesNbr, userHasDisLiked: true })
 
                       })
                       ///////
@@ -489,7 +489,7 @@ exports.dislikeAPost = (req, res) => {
                     dislikesNbr += Element.dislikes
                   });
 
-                  return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasDisLiked: false})
+                  return res.status(200).send({ like: likesNbr, dislike: dislikesNbr, userHasDisLiked: false })
 
                 })
                 ///////
@@ -510,49 +510,39 @@ exports.dislikeAPost = (req, res) => {
 };
 
 
-
-//Get all Likies
-exports.getAllLikes = (req, res) => {
+exports.deletePost = (req, res) => {
   console.log(req.body);
-
-  PostReaction.findAll({
-    where: { idPost: req.body.data.idPost, postType: req.body.data.postTableName, likes: 1 },
-    attributes: ['likes']
-  })
-    .then(result => {
-      if (result.length === 0) {
-        res.status(200).json({ like: 0 })
-      } else {
-        let likesNbr = 0;
-        result.forEach(Element => {
-          likesNbr += Element.likes;
-        });
-        res.status(200).json({ like: likesNbr })
-      }
+  const postTypes = {
+    TextPosts: TextPost,
+    VideoPosts: VideoPost,
+    LinkPosts: LinkPost,
+    ImgPosts: ImgPost,
+  }
+  const table = postTypes[req.body.postType];
+  Post.findOne({ where: { idPost: req.body.idPost, postType: req.body.postType } })
+    .then(post => {
+      PostReaction.destroy({
+        where:
+          { idPost: req.body.idPost, postType: req.body.postType, userId: req.body.userId }
+      }).then(() => {
+        table.destroy({ where: { id: post.idPost } })
+          .then(() => {
+            Post.destroy({ where: { id: post.id } })
+              .then(result => {
+                if(result === 1){
+                  return res.status(200).send({ message: result })
+                }else{
+                  return res.status(400).send({ message: "Utilisateur non supprimé !" })
+                }
+                
+              }).catch(err => res.status(500).send({ message: err }))
+          }).catch(err => {
+            return res.status(500).send({ message: err })
+          })
+      }).catch(err => res.status(400).json({ mesaage: err }))
+    }).catch(err => {
+      return res.status(500).send({ message: err })
     })
-    .catch(err => res.status(500).json({ error: "Erreur dans la requête sql !" }))
-}
-
-//Get all disLikies
-exports.getAllDislikes = (req, res) => {
-
-  PostReaction.findAll({
-    where: { idPost: req.body.data.idPost, postType: req.body.data.postTableName, dislikes: 1 },
-    attributes: ['dislikes']
-  })
-    .then(result => {
-      if (result.length === 0) {
-        res.status(200).json({ dislike: 0 })
-      } else {
-        let dislikesNbr = 0;
-        result.forEach(Element => {
-          dislikesNbr += Element.dislikes;
-        });
-        res.status(200).json({ dislike: dislikesNbr })
-      }
-
-    })
-    .catch(err => res.status(500).json({ error: "Erreur dans la requête sql !" }))
 }
 
 //this allows to knw if a user has liked or disliked a post

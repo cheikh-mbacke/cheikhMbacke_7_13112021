@@ -4,16 +4,36 @@ import { connect } from "react-redux";
 import CommentComponent from './comment.component';
 import CommentService from '../../services/comment.service'
 import PostReactService from '../../services/postReaction.service'
+import PostService from '../../services/post.service';
+import UserService from '../../services/user.service'
+import { Redirect } from 'react-router-dom'
 class PostComponent extends Component {
 
     constructor(props) {
         super(props);
         this.handlePostComment = this.handlePostComment.bind(this);
         this.handleReaction = this.handleReaction.bind(this);
+        this.recupUser = this.recupUser.bind(this);
+
         this.state = {
             datas: this.props.datas
         }
     };
+
+    recupUser(userId) {
+        return new Promise((resolve, reject) => {
+            UserService.getOneUser(userId)
+
+                .then(user => {
+                    console.log(user);
+                    resolve(`/deleteProfil?userId=${userId}&email=${user.email}&pseudo=${user.pseudo}&register=${user.createdAt}`)
+                }).catch(err => {
+                    reject(err)
+                })
+        })
+
+    }
+
 
     handlePostComment(commentData) {
 
@@ -47,17 +67,26 @@ class PostComponent extends Component {
     }
 
 
+
+
     render() {
-        console.log(this.props.datas);
+        const { user: currentUser } = this.props;
         return (
             <div className="card postFrame mb-2" >
                 <div className="card-body px-0 pb-0">
                     <div className="position-relative mb-2 px-2">
-
-
                         <div className="d-flex justify-content-between">
                             <p>
                                 <strong>{this.props.datas.pseudo}</strong>
+                                <a className='pl-2 text-primary' role='button' onClick={() => {
+                                    this.recupUser(this.props.datas.userId)
+                                        .then(url => {
+                                            document.location.href = url
+                                        })
+
+                                }}  >
+                                    <i className="fas fa-sign-in-alt"></i>
+                                </a>
                             </p>
                             <p><em>{Moment(this.props.datas.createdAt).format('DD-MM-YYYY')}</em></p>
                         </div>
@@ -112,11 +141,11 @@ class PostComponent extends Component {
                                 type: types[this.state.datas.postType],
                                 userReact: "like"
                             }
-                            console.log(reactData, this.state.userLiked);
+
                             this.handleReaction(reactData)
                         }}>
                             <i className="far fa-thumbs-up"></i> <br className="gotoAlign" />Aimer <br className="gotoAlign" />({this.props.datas.likes})</p>
-                        <p className={this.props.datas.userHasDisLiked ? "text-primary" : ""}  onClick={() => {
+                        <p className={this.props.datas.userHasDisLiked ? "text-primary" : ""} onClick={() => {
                             const dislike = this.props.datas.userHasDisLiked ? 0 : 1
                             const types = {
                                 TextPosts: "text",
@@ -132,10 +161,10 @@ class PostComponent extends Component {
                                 type: types[this.state.datas.postType],
                                 userReact: "dislike"
                             }
-                            
+
                             this.handleReaction(reactData)
                         }}>
-                            
+
                             <i className="far fa-thumbs-down"></i> <br className="gotoAlign" /> Déprécier <br className="gotoAlign" />({this.props.datas.dislikes})
                         </p>
                         <p data-toggle="collapse" href={`#post${this.props.idCollapse}`} role="button" aria-expanded="false"
@@ -145,9 +174,9 @@ class PostComponent extends Component {
                             ({this.state.datas.comments.length})
                         </p>
                     </div>
-                    
+
                     <div className="collapse" id={`post${this.props.idCollapse}`}>
-                        <div className="card card-body">
+                        <div className="card card-body comments">
                             <div className="d-flex">
                                 <div className="frameProfil">
                                     <img
@@ -181,6 +210,30 @@ class PostComponent extends Component {
                         </div>
                     </div>
                 </div>
+                {currentUser.role === 'admin' &&
+                    <div className='btn btn-danger' onClick={() => {
+                        console.log(this.state.datas);
+                        PostService.deletePost(
+                            {
+                                idPost: this.state.datas.id,
+                                userId: this.state.datas.userId,
+                                postType: this.state.datas.postType
+                            })
+                            .then(result => {
+                                if (result.data.message === 1) {
+
+                                    alert("Post supprimé !")
+                                    window.location.reload()
+
+                                } else {
+                                    alert(result.data.message)
+                                }
+                            })
+                            .catch(err => {
+                                alert(err)
+                            })
+                    }}>Supprimer</div>
+                }
             </div>
         )
     }

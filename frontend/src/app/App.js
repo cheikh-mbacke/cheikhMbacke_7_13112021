@@ -1,0 +1,164 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Router, Switch, Route, Link} from "react-router-dom";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+
+import Login from "./components/login.component";
+import Register from "./components/register.component";
+import Home from "./components/home.component";
+import Profile from "./components/profile.component";
+import BoardUser from "./components/board-user.component";
+import BoardAdmin from "../components/admin/board-admin.component";
+import DeleteProfil from '../components/admin/delete.profil.component'
+
+import { logout } from "../actions/auth";
+import { clearMessage } from "../actions/message";
+
+import { history } from '../helpers/history';
+
+// import AuthVerify from "./common/auth-verify";
+import EventBus from "../common/EventBus";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+
+    this.state = {
+      currentPage: "",
+      showAdminBoard: false,
+      currentUser: undefined,
+    };
+
+    history.listen((location) => {
+      props.dispatch(clearMessage()); // clear message when changing location
+    });
+  
+  }
+
+  componentDidMount() {
+    const user = this.props.user;
+    const tabURL = document.location.href.split('/');
+    let url = tabURL[(tabURL.length - 1)]
+    this.setState({
+      currentPage: `/${url}`
+    });
+    if (user) {
+      this.setState({
+        currentUser: user,
+        showAdminBoard: user.role.includes("admin")
+      });
+    }
+    EventBus.on("logout", () => {
+      this.logOut();
+    });
+  }
+
+ 
+  componentWillUnmount() {
+    EventBus.remove("logout");
+  }
+
+  
+  logOut() {
+    this.props.dispatch(logout());
+    this.setState({
+      showAdminBoard: false,
+      currentUser: undefined,
+      currentPage: ""
+    });
+  }
+
+
+
+  render() {
+    const { currentUser, showAdminBoard, currentPage} = this.state;
+    return (
+
+      <Router history={history}>
+        <div className="App">
+          <nav className="navbar navbar-expand-lg navBar">
+            <Link to={"/"} className="navbar-brand">
+              <FontAwesomeIcon icon={faGlobe} /> Groupomania
+            </Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <div className="navbar-nav ml-auto collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav ml-auto ">
+                {currentUser ? (
+                  <>
+                    <li className={currentPage === "/home" ? "nav-item activeOnglet" : "nav-item"}>
+                      <Link to={"/home"} className="nav-link navLinkColor" onClick={() => this.setState({currentPage : "/home"})}>
+                      <i class="fas fa-home"></i> Acceuil
+                      </Link>
+                    </li>
+                    {showAdminBoard && (
+                      <li className={currentPage === "/" ? "nav-item activeOnglet" : "nav-item"}>
+                        <Link to={"/admin"} className="nav-link navLinkColor" onClick={() => this.setState({currentPage : "/admin"})}>
+                        <i class="fas fa-solar-panel"></i> Panel d'administration
+                        </Link>
+                      </li>
+                    )}
+                    <li className={currentPage === "/profile" ? "nav-item activeOnglet" : "nav-item"}>
+                      <Link to={"/profile"} className="nav-link navLinkColor" onClick={() => this.setState({currentPage : "/profile"})}>
+                      <i class="fas fa-user-alt"></i> Profil
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/login" className="nav-link navLinkColor" onClick={this.logOut}>
+                      <i class="fas fa-sign-out-alt"></i> Déconnexion
+                      </a>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className={currentPage === "/login" ? "nav-item activeOnglet" : "nav-item"}>
+                      <Link to={"/login"} className="nav-link navLinkColor" onClick={() => this.setState({currentPage : "/login"})}>
+                      <i class="fas fa-sign-in-alt"></i> Se connecter
+                      </Link>
+                    </li>
+
+                    <li className={currentPage === "/register" ? "nav-item activeOnglet" : "nav-item"}>
+                      <Link to={"/register"} className="nav-link navLinkColor" onClick={() => this.setState({currentPage : "/register"})}>
+                      <i class="fas fa-file-invoice"></i> S'inscrire
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+
+            </div>
+          </nav>
+
+          <div className="container mt-3">
+            <Switch>
+              <Route exact path={"/home"} component={Home} />
+              <Route exact path={["/", "/login"]} component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/profile" component={Profile} />
+              <Route path="/deleteProfil" component={DeleteProfil} />
+              <Route path="/admin" component={BoardAdmin} />
+            </Switch>
+          </div>
+
+          {/* <AuthVerify logOut={this.logOut}/> */}
+        </div>
+      </Router>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  const { user } = state.auth;
+  return {
+    user,
+  };
+}
+
+export default connect(mapStateToProps)(App);
