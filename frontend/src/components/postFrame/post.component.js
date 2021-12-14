@@ -6,7 +6,7 @@ import CommentService from '../../services/comment.service'
 import PostReactService from '../../services/postReaction.service'
 import PostService from '../../services/post.service';
 import UserService from '../../services/user.service'
-import { Redirect } from 'react-router-dom'
+
 class PostComponent extends Component {
 
     constructor(props) {

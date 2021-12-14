@@ -1,7 +1,7 @@
 import { 
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
-} from "./types";
+} from "../actions/types";
   
   const user = JSON.parse(localStorage.getItem("user"));
   

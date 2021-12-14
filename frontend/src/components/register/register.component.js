@@ -6,7 +6,7 @@ import { isEmail } from "validator";
 import { Link } from 'react-router-dom'
 
 import { connect } from "react-redux";
-import { register } from "../actions/auth";
+import { register } from "../../actions/auth";
 
 
 const required = (value) => {

@@ -1,7 +1,7 @@
 import { 
     GET_POSTS_SUCCESS, 
     GET_POSTS_FAIL, 
-  } from "./types";
+  } from "../actions/types";
   
   const user = JSON.parse(localStorage.getItem("user"));
   

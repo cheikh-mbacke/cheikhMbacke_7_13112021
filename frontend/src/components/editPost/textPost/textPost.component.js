@@ -51,7 +51,6 @@ class TextPost extends Component {
                             buttonList: buttonList.basic
                         }}
                     />
-
                 </div>
                 <div className="form-group w-75 m-auto pb-2">
                     <input type="submit" className="w-100" value="Poster" />

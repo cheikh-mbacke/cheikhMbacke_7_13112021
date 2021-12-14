@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { deleteUser } from "../../actions/delete-user.action";
 import Moment from 'moment';
-import './style.component.css'
+import '../style.component.css'
 class Profile extends Component {
   constructor(props) {
     super(props);

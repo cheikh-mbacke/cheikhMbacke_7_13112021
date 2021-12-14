@@ -1,7 +1,7 @@
-import { 
-  DELETE_USER_SUCCESS, 
-  DELETE_USER_FAIL, 
-  SET_MESSAGE 
+import {
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
+  SET_MESSAGE
 } from "./types";
 import DeleteUserService from "../services/delete-user.service";
 import AuthService from "../services/auth.service";

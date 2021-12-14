@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import DeleteUserService from '../../services/delete-user.service'
 import { connect } from "react-redux";
-import { deleteUser } from "../../actions/delete-user.action";
 import Moment from 'moment';
-import './style.component.css'
-import UserService from '../../services/user.service'
+import '../style.component.css'
 class Profile extends Component {
     constructor(props) {
         super(props);

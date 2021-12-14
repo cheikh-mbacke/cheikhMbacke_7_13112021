@@ -1,7 +1,7 @@
 import { 
     POST_COMMENT_SUCCESS, 
     POST_COMMENT_FAIL, 
-  } from "./types";
+  } from "../actions/types";
   
   const user = JSON.parse(localStorage.getItem("user"));
   

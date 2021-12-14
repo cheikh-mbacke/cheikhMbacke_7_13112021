@@ -19,7 +19,7 @@ class PostFrame extends Component {
     }
 
     componentDidMount() {
-        PostService.getPosts({userId: this.props.user.userId}).then(
+        PostService.getPosts({ userId: this.props.user.userId }).then(
             response => {
                 this.setState({
                     content: response.data
@@ -45,13 +45,13 @@ class PostFrame extends Component {
         var indents = [];
         for (var i = 0; i < this.state.content.length; i++) {
             indents.push(
-            <PostComponent key={uuidv4()}
-                datas={this.state.content[i]}
-                idCollapse = {uuidv4()}
-            />);
+                <PostComponent key={uuidv4()}
+                    datas={this.state.content[i]}
+                    idCollapse={uuidv4()}
+                />);
         }
         return indents;
-       
+
 
 
     }
