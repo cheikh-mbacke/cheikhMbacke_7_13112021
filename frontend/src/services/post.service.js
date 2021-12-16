@@ -1,16 +1,19 @@
 import axios from "axios";
-
+import authHeader from "./auth-header";
 const API_URL = "http://localhost:3000/api/post/";
 
 class PostService {
+  
   textPost(postData) {
     return axios
       .post(API_URL + "text", {
-        data: {
-          content: postData.content,
-          userId: postData.userId
+        data: {content: postData.content, userId: postData.userId},
+      },{
+        headers: {
+          ...authHeader()
         }
-      })
+      }
+    )
       .then((response) => {
         return response;
       });
@@ -18,12 +21,14 @@ class PostService {
   linkPost(postData) {
     return axios
       .post(API_URL + "link", {
-        data: {
-          title: postData.title,
-          url: postData.url,
-          userId: postData.userId
+        data: { title: postData.title, url: postData.url, userId: postData.userId }
+      },
+      {
+        headers: {
+          ...authHeader()
         }
-      })
+      }
+    )
       .then((response) => {
         return response;
       });
@@ -31,7 +36,8 @@ class PostService {
   videoPost(postData) {
     return axios
       .post(API_URL + "video", postData, {headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        ...authHeader()
       }})
       .then((response) => {
         return response;
@@ -40,8 +46,11 @@ class PostService {
   imgPost(postData) {
     return axios
       .post(API_URL + "img", postData, {headers: {
-        'Content-Type': 'multipart/form-data'
-      }})
+        'Content-Type': 'multipart/form-data',
+        ...authHeader()
+      },
+      
+    })
       .then((response) => {
         return response;
       });
@@ -58,9 +67,10 @@ class PostService {
   }
 
   getPosts(userInfo) {
-    return axios.post(API_URL + "allPosts", userInfo).then(result => result)
+    return axios.get(API_URL, {params: userInfo}, {headers: authHeader()}).then(result => result)
     .catch(err => err)
   }
+  
 }
 
 export default new PostService();

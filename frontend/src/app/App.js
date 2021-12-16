@@ -87,7 +87,7 @@ class App extends Component {
                   <>
                     <li className={currentPage === "/home" ? "nav-item activeOnglet" : "nav-item"}>
                       <Link to={"/home"} className="nav-link navLinkColor" onClick={() => this.setState({ currentPage: "/home" })}>
-                        <i class="fas fa-home"></i> Acceuil
+                        <i className="fas fa-home"></i> Accueil
                       </Link>
                     </li>
                     {showAdminBoard && (
@@ -99,12 +99,12 @@ class App extends Component {
                     )}
                     <li className={currentPage === "/profile" ? "nav-item activeOnglet" : "nav-item"}>
                       <Link to={"/profile"} className="nav-link navLinkColor" onClick={() => this.setState({ currentPage: "/profile" })}>
-                        <i class="fas fa-user-alt"></i> Profil
+                        <i className="fas fa-user-alt"></i> Profil
                       </Link>
                     </li>
                     <li className="nav-item">
                       <a href="/login" className="nav-link navLinkColor" onClick={this.logOut}>
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        <i className="fas fa-sign-out-alt"></i> Déconnexion
                       </a>
                     </li>
                   </>
@@ -112,13 +112,13 @@ class App extends Component {
                   <>
                     <li className={currentPage === "/login" ? "nav-item activeOnglet" : "nav-item"}>
                       <Link to={"/login"} className="nav-link navLinkColor" onClick={() => this.setState({ currentPage: "/login" })}>
-                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                        <i className="fas fa-sign-in-alt"></i> Se connecter
                       </Link>
                     </li>
 
                     <li className={currentPage === "/register" ? "nav-item activeOnglet" : "nav-item"}>
                       <Link to={"/register"} className="nav-link navLinkColor" onClick={() => this.setState({ currentPage: "/register" })}>
-                        <i class="fas fa-file-invoice"></i> S'inscrire
+                        <i className="fas fa-file-invoice"></i> S'inscrire
                       </Link>
                     </li>
                   </>

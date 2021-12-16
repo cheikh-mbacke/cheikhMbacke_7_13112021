@@ -6,17 +6,17 @@ const API_URL = "http://localhost:3000/api/users/";
 class UserService {
   getOneUser(userId) {
     return axios
-      .get(API_URL + userId)
+      .get(API_URL + userId, {headers: authHeader()})
       .then((response) => {
         return response.data;
       });
   }
-  getUserBoard() {
-    return axios.get(API_URL + "std", { headers: authHeader() });
-  }
-
-  getAdminBoard() {
-    return axios.get(API_URL + "admin", { headers: authHeader() });
+  deleteUser(userId) {
+    return axios
+      .delete(API_URL + "delete", {data: {userId: userId}})
+      .then((response) => {
+        return response;
+      });
   }
 }
 

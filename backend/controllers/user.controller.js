@@ -36,31 +36,6 @@ exports.getOneUser = (req, res) => {
         .then(user => res.status(200).json(user))
         .catch(error => res.status(404).json({message: error }));
 }
-//get standars users 
-exports.standardsUsers = (req, res) => {
-    Privilege.findAll({ where: { role: 'user' }, attributes: ['userId'] })
-        .then(result => {
-            const ids = []
-            result.forEach(obj => ids.push(obj.userId))
-            User.findAll({ where: { id: ids } })
-                .then(users => res.status(200).json(users))
-                .catch(() => res.status(500).json({ error: "Erreur dans la requête sql !" }))
-        })
-        .catch((err) => res.status(500).json({ error: "Erreur dans la requête sql !" + err }))
-}
-
-//get admin users 
-exports.adminUsers = (req, res) => {
-    Privilege.findAll({ where: { role: 'admin' }, attributes: ['userId'] })
-        .then(result => {
-            const ids = []
-            result.forEach(obj => ids.push(obj.userId))
-            User.findAll({ where: { id: ids } })
-                .then(users => res.status(200).json(users))
-                .catch(() => res.status(500).json({ error: "Erreur dans la requête sql !" }))
-        })
-        .catch((err) => res.status(500).json({ error: "Erreur dans la requête sql !" + err }))
-}
 
 function destroyUserCredentials(userId) {
 

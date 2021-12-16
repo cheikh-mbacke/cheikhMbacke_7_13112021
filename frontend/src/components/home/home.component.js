@@ -1,40 +1,37 @@
 import React, { Component } from "react";
-
-import UserService from "../../services/user.service";
 import EditPost from '../editPost/editPost.component'
 import PostFrame from "../postFrame/postFrame.component";
+import ErrorPage from "../errorPage/error.component";
 export default class Home extends Component {
   constructor(props) {
     super(props);
-
+    this.handleErrorPage = this.handleErrorPage.bind(this);
     this.state = {
-      content: ""
+      content: "",
+      authError: false,
     };
   }
 
-  componentDidMount() {
-    UserService.getUserBoard().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    );
+  handleErrorPage(errCode, message){
+    
+    this.setState = {
+      authError: this.state.authError = true,
+    };
+
+    this.forceUpdate()
   }
 
   render() {
     return (
       <div className="container">
-        <EditPost />
-        <PostFrame />
+        {this.state.authError ? <ErrorPage /> :
+        <>
+          <EditPost />
+          <PostFrame 
+            handleErrorPage={this.handleErrorPage} />
+        </>
+  }
+        
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DeleteUserService from '../../services/delete-user.service'
+import UserService from '../../services/user.service'
 import { connect } from "react-redux";
 import Moment from 'moment';
 import '../style.component.css'
@@ -30,7 +30,7 @@ class Profile extends Component {
 
     handleDelete(userId) {
 
-        DeleteUserService.deleteUser(userId)
+        UserService.deleteUser(userId)
             .then(() => {
                 alert("Votre a été bien supprimé")
                 document.location.href = '/home'

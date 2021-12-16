@@ -3,7 +3,7 @@ import {
   DELETE_USER_FAIL,
   SET_MESSAGE
 } from "./types";
-import DeleteUserService from "../services/delete-user.service";
+import DeleteUserService from "../services/user.service";
 import AuthService from "../services/auth.service";
 
 export const deleteUser = (userId) => (dispatch) => {

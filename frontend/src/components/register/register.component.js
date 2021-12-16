@@ -131,7 +131,7 @@ class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="pseudo">Username</label>
+                  <label htmlFor="pseudo">Nom d'utilisateur</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -155,7 +155,7 @@ class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Mot de passe</label>
                   <Input
                     type="password"
                     className="form-control"
@@ -167,7 +167,7 @@ class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Sign Up</button>
+                  <button className="btn btn-primary btn-block">S'inscrire</button>
                 </div>
                 <div className="form-group">
                   <Link to={"/login"} >

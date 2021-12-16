@@ -80,34 +80,7 @@ exports.signin = (req, res) => {
 
 };
 
-// Update user profil by the id in the request
-exports.updateUser = (req, res) => {
 
-  const user = req.file ?
-    {
-      ...req.body,
-      avatarPath: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
-  User.update(user, {
-    where: { id: user.userId }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.status(200).json({
-          message: "succès"
-        });
-      } else {
-        res.status(400).json({
-          error: `Mise à jour échouée ! Contactez votre administrateur pour en savoir plus`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        error: "Erreur dans la requête  sql"
-      });
-    });
-};
 
 
 

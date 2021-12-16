@@ -76,6 +76,7 @@ exports.createAImgPost = (req, res) => {
 
 //Get All posts
 exports.getAllPosts = (req, res) => {
+console.log(req.query.userId);
 
   const postTypes = {
     TextPosts: TextPost,
@@ -86,6 +87,7 @@ exports.getAllPosts = (req, res) => {
   const posts = []
 
   Post.findAll({ order: [['createdAt', 'DESC']] })
+
     .then(result => {
 
       let nbrTour = (result.length);
@@ -102,7 +104,7 @@ exports.getAllPosts = (req, res) => {
                       where: { idPost: post.id, postType: elt.postType },
                       attributes: ['likes', 'dislikes']
                     }).then(reacts => {
-                      PostReaction.findOne({ where: { idPost: post.id, postType: elt.postType, userId: req.body.userId } })
+                      PostReaction.findOne({ where: { idPost: post.id, postType: elt.postType, userId: req.query.userId } })
                         .then(response => {
                           let likesNbr = 0;
                           let dislikesNbr = 0
@@ -511,7 +513,7 @@ exports.dislikeAPost = (req, res) => {
 
 
 exports.deletePost = (req, res) => {
-  console.log(req.body);
+
   const postTypes = {
     TextPosts: TextPost,
     VideoPosts: VideoPost,
@@ -545,36 +547,3 @@ exports.deletePost = (req, res) => {
     })
 }
 
-//this allows to knw if a user has liked or disliked a post
-exports.userReact = (req, res) => {
-  PostReaction.findOne({
-    where: { id: req.body.id, userId: req.body.userId },
-    attributes: ['likes', 'dislikes']
-  })
-    .then(result => {
-      if ((result.likes === 0 || null) && (result.dislikes === 0 || null)) {
-        res.status(200).json({ like: false, dislike: false })
-      } else if (result.likes === 1) {
-        res.status(200).json({ like: true, dislike: false })
-      } else if (result.dislikes === 1) {
-        res.status(200).json({ like: false, dislike: true })
-      }
-
-    })
-    .catch(err => res.status(500).json({ error: "Erreur dans la requête sql !" }))
-}
-function commentUser(comments) {
-  return new Promise((resolve, reject) => {
-    let nbrComments = comments.length
-    comments.forEach(comment => {
-      User.findOne({ where: comment.userId })
-        .then(user => {
-          comment['dataValues'].pseudo = user.pseudo;
-          nbrComments--;
-          if (nbrComments === 0) resolve(comments)
-        }).catch((err) => {
-          reject(err)
-        })
-    })
-  })
-}

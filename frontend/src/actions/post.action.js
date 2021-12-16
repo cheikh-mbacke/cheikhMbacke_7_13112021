@@ -10,9 +10,6 @@ import PostService from "../services/post.service";
 export const textPost = (postData) => (dispatch) => {
   return PostService.textPost(postData).then(
     (response) => {
-      /*Apeler ici la fonction récupérer les posts
-      ....
-      */
 
       const message = response.data.message;
       dispatch({

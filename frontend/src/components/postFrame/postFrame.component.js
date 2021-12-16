@@ -7,25 +7,32 @@ import './postFrame.component.css'
 import PostComponent from "./post.component";
 import PostService from '../../services/post.service'
 
-
 class PostFrame extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            content: ""
+            content: "",
+            authError: false
         };
 
     }
 
     componentDidMount() {
         PostService.getPosts({ userId: this.props.user.userId }).then(
+
             response => {
-                this.setState({
-                    content: response.data
-                });
+                if (!response.data) {
+                    this.props.handleErrorPage()
+                } else {
+                    this.setState({
+                        content: response.data
+                    });
+                }
+
             },
             error => {
+                console.log(error)
                 this.setState({
                     content:
                         (error.response && error.response.data) ||
@@ -33,12 +40,13 @@ class PostFrame extends Component {
                         error.toString()
                 });
             }
-        );
+        )
     }
 
 
     render() {
         const { user: currentUser } = this.props;
+        
         if (!currentUser) {
             return <Redirect to="/login" />;
         }
@@ -48,11 +56,11 @@ class PostFrame extends Component {
                 <PostComponent key={uuidv4()}
                     datas={this.state.content[i]}
                     idCollapse={uuidv4()}
+                    accessToken ={currentUser.accessToken
+                    }
                 />);
         }
         return indents;
-
-
 
     }
 }

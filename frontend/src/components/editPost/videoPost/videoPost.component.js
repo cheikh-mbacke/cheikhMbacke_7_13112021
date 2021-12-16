@@ -10,7 +10,9 @@ class VideoPost extends Component {
     constructor(props) {
         super(props);
         this.handleSubmitPost = this.handleSubmitPost.bind(this);
-
+        this.state = {
+            authError: false,
+        }
     }
 
     handleSubmitPost(form, userId) {
@@ -25,6 +27,11 @@ class VideoPost extends Component {
         dispatch(videoPost(postData))
             .then(() => {
                 window.location.reload()
+            }).catch(err => {
+                this.setState = {
+                    authError: this.state.authError = true,
+                }
+                this.forceUpdate()
             })
     }
     render() {
@@ -33,7 +40,7 @@ class VideoPost extends Component {
             return <Redirect to="/login" />;
         }
         return (
-            <form onSubmit={(e) => {
+            <form className="pb-2" onSubmit={(e) => {
                 e.preventDefault()
                 this.handleSubmitPost(e.target, currentUser.userId)
             }}>
@@ -51,6 +58,11 @@ class VideoPost extends Component {
                 <div className="form-group w-75 m-auto pb-2">
                     <input type="submit" className="w-100" value="Poster" />
                 </div>
+                {this.state.authError &&
+                    <div className="alert alert-danger w-75 m-auto" role="alert">
+                        Vous n'êtes pas autorisés à poster !
+                    </div>
+                }
             </form>
         )
     }

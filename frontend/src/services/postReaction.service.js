@@ -13,9 +13,7 @@ class PostReactService {
     }
 
     return axios
-      .post(API_URL + uri, {
-        data: reactInfos
-      })
+      .post(API_URL + uri, {data: reactInfos})
       .then((response) => {
         return response;
       }).catch(err => err)
