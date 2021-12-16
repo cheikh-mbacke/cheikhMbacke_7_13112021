@@ -212,7 +212,7 @@ class PostComponent extends Component {
                         </div>
                     </div>
                 </div>
-                {currentUser.role === 'admin' &&
+                {currentUser.role === 'admin' || currentUser.userId === this.state.datas.userId &&
                     <div className='btn btn-danger mb-2'
                     onClick={() => {
                         

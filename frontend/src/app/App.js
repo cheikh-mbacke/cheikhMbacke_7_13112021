@@ -16,6 +16,7 @@ import { logout } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { history } from '../helpers/history';
 import EventBus from "../common/EventBus";
+import menu from './menu.png'
 
 class App extends Component {
   constructor(props) {
@@ -75,12 +76,14 @@ class App extends Component {
 
       <Router history={history}>
         <div className="App">
+          <header>
           <nav className="navbar navbar-expand-lg navBar">
             <Link to={"/"} className="navbar-brand">
               <FontAwesomeIcon icon={faGlobe} /> Groupomania
             </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
+              {/*<span className="navbar-toggler-icon"></span>*/}
+              <img className="menuBurger" src={menu}/>
             </button>
             <div className="navbar-nav ml-auto collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav ml-auto ">
@@ -128,6 +131,7 @@ class App extends Component {
 
             </div>
           </nav>
+          </header>
 
           <div className="container mt-3">
             <Switch>
