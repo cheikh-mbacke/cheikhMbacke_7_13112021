@@ -12,7 +12,7 @@ const Comment = db.Comments;
 
 // Create and Save a new TextPost
 exports.createATextPost = (req, res) => {
-  console.log(req.body.data);
+
   TextPost.create({ content: req.body.data.content })
     .then(result => {
       Post.create({ userId: req.body.data.userId, idPost: result.id, postType: "TextPosts" })
@@ -86,7 +86,7 @@ console.log(req.query.userId);
   }
   const posts = []
 
-  Post.findAll({ order: [['createdAt', 'DESC']] })
+  Post.findAll({ order: [['updatedAt', 'DESC']] })
 
     .then(result => {
 
@@ -542,6 +542,38 @@ exports.deletePost = (req, res) => {
             return res.status(500).send({ message: err })
           })
       }).catch(err => res.status(400).json({ mesaage: err }))
+    }).catch(err => {
+      return res.status(500).send({ message: err })
+    })
+}
+
+//Update a comment
+exports.updateAPost = (req, res) => {
+
+  const postTypes = {
+    TextPosts: TextPost,
+    VideoPosts: VideoPost,
+    LinkPosts: LinkPost,
+    ImgPosts: ImgPost,
+  }
+  const table = postTypes[req.body.postType];
+  const mediaPath = {}
+  if(req.body.imgPath) mediaPath['imgPath'] = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  if(req.body.videoPath) mediaPath['videoPath'] = `${req.protocol}://${req.get('host')}/videos/${req.file.filename}`
+  Post.findOne({ where: { idPost: req.body.idPost, postType: req.body.postType } })
+    .then(post => {
+      const body = {
+        content: req.body.content && req.body.content,
+        title: req.body.title && req.body.title,
+        url: req.body.url && req.body.url,
+        ...mediaPath
+      }
+      table.update(body, { where: { id: post.idPost } })
+          .then((num) => {
+            return res.status(200).send(num)
+          }).catch(err => {
+            return res.status(500).send({ message: err })
+          })
     }).catch(err => {
       return res.status(500).send({ message: err })
     })

@@ -15,8 +15,11 @@ class UserService {
     return axios
       .delete(API_URL + "delete", {data: {userId: userId}})
       .then((response) => {
+        localStorage.removeItem("user");
         return response;
       });
+
+      
   }
 }
 

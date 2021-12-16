@@ -5,13 +5,13 @@ import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import { buttonList } from "suneditor-react";
 import { textPost } from '../../../actions/post.action'
-
-
+import PostService from "../../../services/post.service";
 class TextPost extends Component {
 
     constructor(props) {
         super(props);
         this.handleSubmitPost = this.handleSubmitPost.bind(this);
+        this.handleUpdatePost = this.handleUpdatePost.bind(this)
         this.state = {
             authError: false,
         }
@@ -21,7 +21,8 @@ class TextPost extends Component {
     handleSubmitPost(form, userId) {
         const postData = {
             content: form.elements.editor.value,
-            userId: userId
+            userId: userId,
+            
         }
         const { dispatch } = this.props;
 
@@ -35,6 +36,20 @@ class TextPost extends Component {
                 this.forceUpdate()
             })
     }
+    handleUpdatePost(form){
+        const postData = {
+            content: form.elements.editor.value,
+            idPost: this.props.idPost,
+            postType: "TextPosts"
+        }
+        PostService.updatePost(postData)
+        .then(response => {
+            alert('Votre post a été mis à jour !')
+            document.location.href ="/home"
+        }).catch(err => {
+            console.log(err);
+        })
+    }
     render() {
         const { user: currentUser, message } = this.props;
         if (!currentUser) {
@@ -44,7 +59,12 @@ class TextPost extends Component {
 
             <form className="pb-2" onSubmit={(e) => {
                 e.preventDefault()
-                this.handleSubmitPost(e.target, currentUser.userId)
+                if(this.props.update){
+                    this.handleUpdatePost(e.target, currentUser.userId)
+                }else{
+                    this.handleSubmitPost(e.target, currentUser.userId)
+                }
+                
             }}>
                 <div className="form-group">
                     <SunEditor

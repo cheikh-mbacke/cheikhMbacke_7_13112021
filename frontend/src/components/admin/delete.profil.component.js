@@ -32,7 +32,7 @@ class Profile extends Component {
 
         UserService.deleteUser(userId)
             .then(() => {
-                alert("Votre a été bien supprimé")
+                alert("Ce a été bien supprimé")
                 document.location.href = '/home'
             }).catch(err => {
                 alert(err.message)
@@ -70,7 +70,7 @@ class Profile extends Component {
                         </div>
                         {currentUser.role === 'admin' ?
                             <a href="#" className="btn btn-danger w-lg-50 m-auto" data-toggle="modal" data-target="#delete">
-                                Supprimer mon compte
+                                Supprimer ce compte
                             </a> :
                             <a href="/" className="btn btn-primary m-auto">Retour</a>
                         }

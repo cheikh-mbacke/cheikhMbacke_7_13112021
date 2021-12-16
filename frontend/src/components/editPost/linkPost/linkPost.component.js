@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import 'suneditor/dist/css/suneditor.min.css';
 import { linkPost } from '../../../actions/post.action'
-
+import PostService from "../../../services/post.service";
 
 class LinkPost extends Component {
 
     constructor(props) {
         super(props);
         this.handleSubmitPost = this.handleSubmitPost.bind(this);
+        this.handleUpdatePost = this.handleUpdatePost.bind(this)
         this.state = {
             authError: false,
         }
@@ -34,6 +35,21 @@ class LinkPost extends Component {
                 this.forceUpdate()
             })
     }
+    handleUpdatePost(form){
+        const postData = {
+            title: form.elements.title.value,
+            idPost: this.props.idPost,
+            url: form.elements.url.value,
+            postType: "LinkPosts"
+        }
+        PostService.updatePost(postData)
+        .then(response => {
+            alert('Votre post a été mis à jour !')
+            document.location.href ="/home"
+        }).catch(err => {
+            console.log(err);
+        })
+    }
     render() {
         const { user: currentUser, message } = this.props;
         if (!currentUser) {
@@ -42,7 +58,12 @@ class LinkPost extends Component {
         return (
             <form className="pb-2" onSubmit={(e) => {
                 e.preventDefault()
-                this.handleSubmitPost(e.target, currentUser.userId)
+                if(this.props.update){
+                    this.handleUpdatePost(e.target)
+                }else{
+                    this.handleSubmitPost(e.target, currentUser.userId)
+                }
+                
             }}>
                 <div className="form-group">
                     <textarea className="form-control"

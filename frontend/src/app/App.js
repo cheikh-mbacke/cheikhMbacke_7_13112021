@@ -11,6 +11,7 @@ import Home from "../components/home/home.component";
 import Profile from "../components/profile/profile.component";
 import BoardAdmin from "../components/admin/board-admin.component";
 import DeleteProfil from '../components/admin/delete.profil.component'
+import UpdatePost from '../components/postFrame/updatePost'
 import { logout } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { history } from '../helpers/history';
@@ -93,7 +94,7 @@ class App extends Component {
                     {showAdminBoard && (
                       <li className={currentPage === "/" ? "nav-item activeOnglet" : "nav-item"}>
                         <Link to={"/admin"} className="nav-link navLinkColor" onClick={() => this.setState({ currentPage: "/admin" })}>
-                          <i class="fas fa-solar-panel"></i> Panel d'administration
+                          <i className="fas fa-solar-panel"></i> Panel d'administration
                         </Link>
                       </li>
                     )}
@@ -136,6 +137,7 @@ class App extends Component {
               <Route exact path="/profile" component={Profile} />
               <Route path="/deleteProfil" component={DeleteProfil} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/updatePost" component={UpdatePost} />
             </Switch>
           </div>
         </div>

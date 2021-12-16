@@ -70,6 +70,21 @@ class PostService {
     return axios.get(API_URL, {params: userInfo}, {headers: authHeader()}).then(result => result)
     .catch(err => err)
   }
+
+  updatePost(postData) {
+
+    return axios.post(API_URL + "update", postData, {headers: {
+        Accept: 'multipart/form-data, application/json;charset=utf-8',
+        ...authHeader()
+      },
+      
+    })
+      .then((response) => {
+        return response;
+      }).catch(err => {
+        return err;
+      })
+  }
   
 }
 

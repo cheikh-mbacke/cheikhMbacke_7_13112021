@@ -6,6 +6,7 @@ import CommentService from '../../services/comment.service'
 import PostReactService from '../../services/postReaction.service'
 import PostService from '../../services/post.service';
 import UserService from '../../services/user.service'
+import { Link } from "react-router-dom";
 
 class PostComponent extends Component {
 
@@ -71,6 +72,7 @@ class PostComponent extends Component {
 
     render() {
         const { user: currentUser } = this.props;
+        
         return (
             <div className="card postFrame mb-2" >
                 <div className="card-body px-0 pb-0">
@@ -211,8 +213,9 @@ class PostComponent extends Component {
                     </div>
                 </div>
                 {currentUser.role === 'admin' &&
-                    <div className='btn btn-danger' onClick={() => {
-                        console.log(this.state.datas);
+                    <div className='btn btn-danger mb-2'
+                    onClick={() => {
+                        
                         PostService.deletePost(
                             {
                                 idPost: this.state.datas.id,
@@ -233,6 +236,14 @@ class PostComponent extends Component {
                                 alert(err)
                             })
                     }}>Supprimer</div>
+                }
+                {
+                    currentUser.userId === this.state.datas.userId && 
+
+                    <Link className='btn btn-success' to={`/updatePost?postType=${this.state.datas.postType}&idPost=${this.state.datas.id}`}>
+                        Modifier
+                    </Link>
+                    
                 }
             </div>
         )

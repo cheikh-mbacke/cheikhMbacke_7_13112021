@@ -9,7 +9,7 @@ router.post('/link', auth, postCrtl.createALinkPost);
 router.post('/video', auth, multer, postCrtl.createAVideoPost);
 router.post('/delete', postCrtl.deletePost);
 router.post('/img', auth, multer, postCrtl.createAImgPost);
-router.put('/:id/update/', postCrtl.updateAPost);
+router.post('/update', multer, postCrtl.updateAPost);
 router.post('/like', postCrtl.likeAPost);
 router.post('/dislike', postCrtl.dislikeAPost);
 

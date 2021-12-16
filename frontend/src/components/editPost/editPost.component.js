@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom'
 
 export default function EditPost( props) {
     const [postType, setPostEdit] = useState(null)
-console.log();
+    const user = JSON.parse(localStorage.getItem("user"));
+    
     const showEditPost = (postType) => {
         setPostEdit(postType)
     }
@@ -25,7 +26,7 @@ console.log();
                             alt="photo de profil"
                         />
                     </div>
-                    <Link to="/profile" className="name border profilLink">Cheikh</Link>
+                    <Link to="/profile" className="name border profilLink">{user && user.pseudo}</Link>
                 </div>
                 <div className="editPostItems">
                     <div
